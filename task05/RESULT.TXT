@@ -1,0 +1,49 @@
+please input a lambda term with ";":
+type A and type (A -> B) can't be unified!
+Z is defined: (@f.((@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))(@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))))
+the type of expression is: NULL
+please input a lambda term with ";":
+typing step 1 and top = 9:
+abs: [2,1]
+type_env[] = [0(0,int), 1(1,1), 2(2,2)]
+(f:2) |== 1
+typing step 2 and top = 10:
+abs: [3,2,1]
+type_env[] = [0(0,int), 1(1,1), 2(2,2), 3(3,3)]
+(x:2) |== 2
+typing step 3 and top = 10:
+abs: [3,2,1]
+type_env[] = [0(0,int), 1(1,1), 2(2,2), 3(3,3)]
+(x:2) |== 2
+type A and type (A -> B) can't be unified!
+typing step 4 and top = 10:
+abs: [3,(4 -> 5),1]
+type_env[] = [0(0,int), 1(1,1), 2(2,(4 -> 5)), 3(3,3), 4(4,4), 5(5,5)]
+((x:2)(x:2)) |== NULL
+typing step 5 and top = 10:
+abs: [3,(4 -> 5),1]
+type_env[] = [0(0,int), 1(1,1), 2(2,(4 -> 5)), 3(3,3), 4(4,4), 5(5,5)]
+(((x:2)(x:2))(y:1)) |== NULL
+typing step 6 and top = 9:
+abs: [(4 -> 5),1]
+type_env[] = [0(0,int), 1(1,1), 2(2,(4 -> 5)), 3(3,3), 4(4,4), 5(5,5)]
+(@y.(((x:2)(x:2))(y:1))) |== NULL
+typing step 7 and top = 9:
+abs: [(4 -> 5),1]
+type_env[] = [0(0,int), 1(1,1), 2(2,(4 -> 5)), 3(3,3), 4(4,4), 5(5,5)]
+((f:2)(@y.(((x:2)(x:2))(y:1)))) |== NULL
+typing step 8 and top = 8:
+abs: [1]
+type_env[] = [0(0,int), 1(1,1), 2(2,(4 -> 5)), 3(3,3), 4(4,4), 5(5,5)]
+(@x.((f:2)(@y.(((x:2)(x:2))(y:1))))) |== NULL
+typing step 9 and top = 8:
+abs: [1]
+type_env[] = [0(0,int), 1(1,1), 2(2,(4 -> 5)), 3(3,3), 4(4,4), 5(5,5)]
+((@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))(@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))) |== NULL
+typing step 10 and top = 7:let Z=@f.(@x.f(@y.(x x)y))(@x.f(@y.(x x)y));
+abs: []
+type_env[] = [0(0,int), 1(1,1), 2(2,(4 -> 5)), 3(3,3), 4(4,4), 5(5,5)]
+(@f.((@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))(@x.((f:2)(@y.(((x:2)(x:2))(y:1))))))) |== NULL
+Z is dened: (@f.((@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))(@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))))
+the type of expression is: NULL
+please input a lambda term with ";":

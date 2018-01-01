@@ -1,0 +1,1531 @@
+\exptree{(@y.(@x.(y:2)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt 2:y};]
+]
+]
+}
+\exptree{(@x.(x:1))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt 1:x};]
+]
+}
+\exptree{(@x.(@y.(@z.(((x:3)(z:1))((y:2)(z:1))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt ABS}; 
+       [.\node{\tt z};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:x};]
+[.\node{\tt 1:z};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:y};]
+[.\node{\tt 1:z};]
+]
+]
+]
+]
+]
+}
+\exptree{(@x.(@f.((f:1)((f:1)(x:2)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:f};]
+[.\node{\tt 2:x};]
+]
+]
+]
+]
+}
+\exptree{(@x.((x:1)(x:1)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:x};]
+[.\node{\tt 1:x};]
+]
+]
+}
+\exptree{(@x.(@y.(x:2)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt 2:x};]
+]
+]
+}
+\exptree{(@x.(@y.(y:1)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt 1:y};]
+]
+]
+}
+\exptree{(@a.(@b.(@c.(((a:3)(b:2))(c:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt ABS}; 
+       [.\node{\tt c};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:a};]
+[.\node{\tt 2:b};]
+]
+[.\node{\tt 1:c};]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.((((IF:3)(a:2))(TRUE:5))(b:1))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:IF};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 5:TRUE};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+}
+\exptree{(@a.(@b.((((IF:4)(a:2))(b:1))(FALSE:5))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:IF};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 1:b};]
+]
+[.\node{\tt 5:FALSE};]
+]
+]
+]
+}
+\exptree{(@a.((((IF:4)(a:1))(FALSE:5))(TRUE:6)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:IF};]
+[.\node{\tt 1:a};]
+]
+[.\node{\tt 5:FALSE};]
+]
+[.\node{\tt 6:TRUE};]
+]
+]
+}
+\exptree{(@a.(@b.(@x.((((IF:7)(x:1))(a:3))(b:2)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 7:IF};]
+[.\node{\tt 1:x};]
+]
+[.\node{\tt 3:a};]
+]
+[.\node{\tt 2:b};]
+]
+]
+]
+]
+}
+\exptree{(@a.((a:1)(TRUE:8)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:a};]
+[.\node{\tt 8:TRUE};]
+]
+]
+}
+\exptree{(@a.((a:1)(FALSE:8)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:a};]
+[.\node{\tt 8:FALSE};]
+]
+]
+}
+\exptree{(PAIR:3)}{\Tree
+[.\node{\tt 3:PAIR};]
+}
+\exptree{(FST:3)}{\Tree
+[.\node{\tt 3:FST};]
+}
+\exptree{(SND:3)}{\Tree
+[.\node{\tt 3:SND};]
+}
+\exptree{(@x.(TRUE:13))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt 13:TRUE};]
+]
+}
+\exptree{(@a.((a:1)(@x.(@y.(FALSE:15)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt 15:FALSE};]
+]
+]
+]
+]
+}
+\exptree{(@z.(z:1))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt z};]
+[.\node{\tt 1:z};]
+]
+}
+\exptree{(@x.(@y.(((PAIR:11)(FALSE:16))(((PAIR:11)(x:2))(x:2)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 11:PAIR};]
+[.\node{\tt 16:FALSE};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 11:PAIR};]
+[.\node{\tt 2:x};]
+]
+[.\node{\tt 2:x};]
+]
+]
+]
+]
+}
+\exptree{(FST:9)}{\Tree
+[.\node{\tt 9:FST};]
+}
+\exptree{(@z.((FST:11)((SND:10)(z:1))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt z};]
+[.\node{\tt APP}; 
+[.\node{\tt 11:FST};]
+[.\node{\tt APP}; 
+[.\node{\tt 10:SND};]
+[.\node{\tt 1:z};]
+]
+]
+]
+}
+\exptree{(@z.((SND:11)((SND:11)(z:1))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt z};]
+[.\node{\tt APP}; 
+[.\node{\tt 11:SND};]
+[.\node{\tt APP}; 
+[.\node{\tt 11:SND};]
+[.\node{\tt 1:z};]
+]
+]
+]
+}
+\exptree{(@f.(@x.(x:1)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt 1:x};]
+]
+]
+}
+\exptree{(@n.(@f.(@x.((f:2)(((n:3)(f:2))(x:1))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:n};]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+}
+\exptree{((SUCC:1)(ZERO:2))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 1:SUCC};]
+[.\node{\tt 2:ZERO};]
+]
+}
+\exptree{((SUCC:2)(ONE:1))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 2:SUCC};]
+[.\node{\tt 1:ONE};]
+]
+}
+\exptree{((SUCC:3)(TWO:1))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 3:SUCC};]
+[.\node{\tt 1:TWO};]
+]
+}
+\exptree{((SUCC:4)(THREE:1))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 4:SUCC};]
+[.\node{\tt 1:THREE};]
+]
+}
+\exptree{((SUCC:5)(FOUR:1))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 5:SUCC};]
+[.\node{\tt 1:FOUR};]
+]
+}
+\exptree{(@n.(@f.(@x.((SND:21)(((n:3)(@p.(((PAIR:24)((f:3)((FST:23)(p:1))))((FST:23)(p:1)))))(((PAIR:23)(x:1))(x:1)))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 21:SND};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:n};]
+[.\node{\tt ABS}; 
+       [.\node{\tt p};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 24:PAIR};]
+[.\node{\tt APP}; 
+[.\node{\tt 3:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 23:FST};]
+[.\node{\tt 1:p};]
+]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 23:FST};]
+[.\node{\tt 1:p};]
+]
+]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 23:PAIR};]
+[.\node{\tt 1:x};]
+]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+]
+}
+\exptree{(@n.(((n:1)(@x.(FALSE:28)))(TRUE:28)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 1:n};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt 28:FALSE};]
+]
+]
+[.\node{\tt 28:TRUE};]
+]
+]
+}
+\exptree{(@a.(@b.(((a:2)(SUCC:10))(b:1))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 2:a};]
+[.\node{\tt 10:SUCC};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+}
+\exptree{(@a.(@b.(((b:1)(PRED:5))(a:2))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 1:b};]
+[.\node{\tt 5:PRED};]
+]
+[.\node{\tt 2:a};]
+]
+]
+]
+}
+\exptree{(@a.(@b.(((a:2)((ADD:4)(b:1)))(ZERO:13))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 2:a};]
+[.\node{\tt APP}; 
+[.\node{\tt 4:ADD};]
+[.\node{\tt 1:b};]
+]
+]
+[.\node{\tt 13:ZERO};]
+]
+]
+]
+}
+\exptree{(@a.(@b.((ISZERO:6)(((a:2)(PRED:7))(b:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt 6:ISZERO};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 2:a};]
+[.\node{\tt 7:PRED};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.(((GE:3)(b:1))(a:2))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:GE};]
+[.\node{\tt 1:b};]
+]
+[.\node{\tt 2:a};]
+]
+]
+]
+}
+\exptree{(@a.(@b.(((AND:31)(((GE:4)(a:2))(b:1)))(((LE:3)(a:2))(b:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 31:AND};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:GE};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 1:b};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:LE};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.((NOT:31)(((LE:4)(a:2))(b:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt 31:NOT};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:LE};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.((NOT:32)(((GE:6)(a:2))(b:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt 32:NOT};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 6:GE};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.((NOT:33)(((EQ:5)(a:2))(b:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt 33:NOT};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 5:EQ};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.(@f.(@x.(((a:4)(f:2))(((b:3)(f:2))(x:1)))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:a};]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:b};]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.(@f.(@x.(((a:4)(@w.(((b:4)(f:3))(w:1))))(x:1))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt w};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:b};]
+[.\node{\tt 3:f};]
+]
+[.\node{\tt 1:w};]
+]
+]
+]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+}
+\exptree{(((PAIR:33)(ZERO:20))(ZERO:20))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 33:PAIR};]
+[.\node{\tt 20:ZERO};]
+]
+[.\node{\tt 20:ZERO};]
+]
+}
+\exptree{(@p.(((PAIR:35)((SND:33)(p:1)))((SUCC:21)((SND:33)(p:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt p};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 35:PAIR};]
+[.\node{\tt APP}; 
+[.\node{\tt 33:SND};]
+[.\node{\tt 1:p};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 21:SUCC};]
+[.\node{\tt APP}; 
+[.\node{\tt 33:SND};]
+[.\node{\tt 1:p};]
+]
+]
+]
+]
+}
+\exptree{(@n.((FST:35)(((n:1)(PSUCC:2))(PZERO:3))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt 35:FST};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 1:n};]
+[.\node{\tt 2:PSUCC};]
+]
+[.\node{\tt 3:PZERO};]
+]
+]
+]
+}
+\exptree{(@f.(@p.(((PAIR:38)((f:2)((FST:37)(p:1))))((FST:37)(p:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt p};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 38:PAIR};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 37:FST};]
+[.\node{\tt 1:p};]
+]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 37:FST};]
+[.\node{\tt 1:p};]
+]
+]
+]
+]
+}
+\exptree{(@n.(@f.(@x.((SND:38)(((n:3)((PREFN:4)(f:2)))(((PAIR:40)(x:1))(x:1)))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 38:SND};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:n};]
+[.\node{\tt APP}; 
+[.\node{\tt 4:PREFN};]
+[.\node{\tt 2:f};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 40:PAIR};]
+[.\node{\tt 1:x};]
+]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+]
+}
+\exptree{(@h.((@x.((h:2)((x:1)(x:1))))(@x.((h:2)((x:1)(x:1))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt h};]
+[.\node{\tt APP}; 
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:h};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:x};]
+[.\node{\tt 1:x};]
+]
+]
+]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:h};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:x};]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+}
+\exptree{(@f.((@x.((f:2)((x:1)(x:1))))(@x.((f:2)((x:1)(x:1))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt APP}; 
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:x};]
+[.\node{\tt 1:x};]
+]
+]
+]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 1:x};]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+}
+\exptree{(@f.((@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))(@x.((f:2)(@y.(((x:2)(x:2))(y:1)))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt APP}; 
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 2:x};]
+[.\node{\tt 2:x};]
+]
+[.\node{\tt 1:y};]
+]
+]
+]
+]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt y};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 2:x};]
+[.\node{\tt 2:x};]
+]
+[.\node{\tt 1:y};]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((Z:1)(@f.(@n.((((IF:47)((ISZERO:22)(n:1)))(ONE:28))(((MULT:19)(n:1))((f:2)((PRED:23)(n:1))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 1:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 47:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 22:ISZERO};]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 28:ONE};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 19:MULT};]
+[.\node{\tt 1:n};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 23:PRED};]
+[.\node{\tt 1:n};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((Z:2)(@f.(@n.((((IF:48)((ISZERO:23)(n:1)))(ZERO:31))(((ADD:22)(n:1))((f:2)((PRED:24)(n:1))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 2:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 48:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 23:ISZERO};]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 31:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 22:ADD};]
+[.\node{\tt 1:n};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 24:PRED};]
+[.\node{\tt 1:n};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((Z:3)(@f.(@n.((((IF:49)((ISZERO:24)(n:1)))(ONE:30))(((MULT:21)(n:1))((f:2)((PRED:25)(n:1))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 3:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 49:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 24:ISZERO};]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 30:ONE};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 21:MULT};]
+[.\node{\tt 1:n};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 25:PRED};]
+[.\node{\tt 1:n};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((FST:43)((Z:4)(@f.(((PAIR:45)(@n.((((IF:50)((ISZERO:25)(n:1)))(ZERO:33))(((ADD:24)(n:1))(((SND:44)(f:2))(n:1))))))(@n.(((FST:45)(f:2))((PRED:26)(n:1))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 43:FST};]
+[.\node{\tt APP}; 
+[.\node{\tt 4:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 45:PAIR};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 50:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 25:ISZERO};]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 33:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 24:ADD};]
+[.\node{\tt 1:n};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 44:SND};]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt 1:n};]
+]
+]
+]
+]
+]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 45:FST};]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 26:PRED};]
+[.\node{\tt 1:n};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((Z:5)(@f.(@n.(@l.((((IF:52)((NULL:41)(l:1)))(FALSE:53))((((IF:52)((ISZERO:27)(n:2)))((HEAD:44)(l:1)))(((f:3)((PRED:28)(n:2)))((TAIL:43)(l:1)))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 5:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt ABS}; 
+       [.\node{\tt l};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 52:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 41:NULL};]
+[.\node{\tt 1:l};]
+]
+]
+[.\node{\tt 53:FALSE};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 52:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 27:ISZERO};]
+[.\node{\tt 2:n};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 44:HEAD};]
+[.\node{\tt 1:l};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 28:PRED};]
+[.\node{\tt 2:n};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 43:TAIL};]
+[.\node{\tt 1:l};]
+]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((Z:6)(@f.(@n.if(((=:61)(n:1))0)then1else(((*:63)(n:1))((f:2)(((-:64)(n:1))1))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 6:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt IF}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 61:=};]
+[.\node{\tt 1:n};]
+]
+[.\node{\tt 0};]
+]
+[.\node{\tt 1};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 63:*};]
+[.\node{\tt 1:n};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 64:-};]
+[.\node{\tt 1:n};]
+]
+[.\node{\tt 1};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((Z:7)(@l.(@a.(@b.(((CONS:47)(a:2))(((l:3)(b:1))(((ADD:28)(a:2))(b:1))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 7:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt l};]
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 47:CONS};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:l};]
+[.\node{\tt 1:b};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 28:ADD};]
+[.\node{\tt 2:a};]
+]
+[.\node{\tt 1:b};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{(@x.(((FIBOGEN:2)(ZERO:36))(ONE:34)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 2:FIBOGEN};]
+[.\node{\tt 36:ZERO};]
+]
+[.\node{\tt 34:ONE};]
+]
+]
+}
+\exptree{(@x.((((IF:54)((ISZERO:29)(x:1)))(ONE:35))(ZERO:37)))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 54:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 29:ISZERO};]
+[.\node{\tt 1:x};]
+]
+]
+[.\node{\tt 35:ONE};]
+]
+[.\node{\tt 37:ZERO};]
+]
+]
+}
+\exptree{((Z:10)(@f.(@x.((((IF:56)((ISZERO:31)(x:1)))(ONE:37))((SGB:3)((f:2)((PRED:32)(x:1))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 10:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 56:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 31:ISZERO};]
+[.\node{\tt 1:x};]
+]
+]
+[.\node{\tt 37:ONE};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 3:SGB};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 32:PRED};]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{(@a.(@b.((((Z:13)(@f.(@m.(@c.((((IF:60)(((GT:28)(m:2))(a:5)))(c:1))(((f:3)(((ADD:34)(b:4))(m:2)))((SUCC:42)(c:1))))))))(b:1))(ZERO:40))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt a};]
+[.\node{\tt ABS}; 
+       [.\node{\tt b};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 13:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt m};]
+[.\node{\tt ABS}; 
+       [.\node{\tt c};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 60:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 28:GT};]
+[.\node{\tt 2:m};]
+]
+[.\node{\tt 5:a};]
+]
+]
+[.\node{\tt 1:c};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:f};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 34:ADD};]
+[.\node{\tt 4:b};]
+]
+[.\node{\tt 2:m};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 42:SUCC};]
+[.\node{\tt 1:c};]
+]
+]
+]
+]
+]
+]
+]
+[.\node{\tt 1:b};]
+]
+[.\node{\tt 40:ZERO};]
+]
+]
+]
+}
+\exptree{((Z:12)(@f.(@x.((((IF:58)((ISZERO:33)(x:1)))(ZERO:41))((((IF:58)((ISZERO:33)((PRED:34)(x:1))))(ONE:39))((((IF:58)((ISZERO:33)((ISPAIR:4)(x:1))))(ZERO:41))((f:2)(((DIV:3)(x:1))(TWO:38)))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 12:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 58:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 33:ISZERO};]
+[.\node{\tt 1:x};]
+]
+]
+[.\node{\tt 41:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 58:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 33:ISZERO};]
+[.\node{\tt APP}; 
+[.\node{\tt 34:PRED};]
+[.\node{\tt 1:x};]
+]
+]
+]
+[.\node{\tt 39:ONE};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 58:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 33:ISZERO};]
+[.\node{\tt APP}; 
+[.\node{\tt 4:ISPAIR};]
+[.\node{\tt 1:x};]
+]
+]
+]
+[.\node{\tt 41:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:DIV};]
+[.\node{\tt 1:x};]
+]
+[.\node{\tt 38:TWO};]
+]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{((Z:13)(@f.(@x.((((IF:59)((ISZERO:34)(x:1)))(ZERO:42))((((IF:59)((ISZERO:34)((PRED:35)(x:1))))(ONE:40))((((IF:59)((ISZERO:34)((ISPAIR:5)(x:1))))(ZERO:42))((f:2)(((DIV:4)(x:1))(TWO:39)))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 13:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 59:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 34:ISZERO};]
+[.\node{\tt 1:x};]
+]
+]
+[.\node{\tt 42:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 59:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 34:ISZERO};]
+[.\node{\tt APP}; 
+[.\node{\tt 35:PRED};]
+[.\node{\tt 1:x};]
+]
+]
+]
+[.\node{\tt 40:ONE};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 59:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 34:ISZERO};]
+[.\node{\tt APP}; 
+[.\node{\tt 5:ISPAIR};]
+[.\node{\tt 1:x};]
+]
+]
+]
+[.\node{\tt 42:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:DIV};]
+[.\node{\tt 1:x};]
+]
+[.\node{\tt 39:TWO};]
+]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{(((Z:14)(@f.(@p.(@m.(@n.((((IF:62)((ISZERO:37)(n:1)))(ZERO:45))((((IF:62)(((LT:29)(m:2))(n:1)))(p:3))((((f:4)((SUCC:44)(p:3)))(((SUB:35)(m:2))(n:1)))(n:1)))))))))(ZERO:41))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 14:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt p};]
+[.\node{\tt ABS}; 
+       [.\node{\tt m};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 62:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 37:ISZERO};]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 45:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 62:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 29:LT};]
+[.\node{\tt 2:m};]
+]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 3:p};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 4:f};]
+[.\node{\tt APP}; 
+[.\node{\tt 44:SUCC};]
+[.\node{\tt 3:p};]
+]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 35:SUB};]
+[.\node{\tt 2:m};]
+]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 1:n};]
+]
+]
+]
+]
+]
+]
+]
+]
+[.\node{\tt 41:ZERO};]
+]
+}
+\exptree{((Z:15)(@f.(@m.(@n.((((IF:62)((ISZERO:37)(n:1)))(ZERO:45))((((IF:62)(((LT:29)(m:2))(n:1)))(m:2))(((f:3)(((SUB:35)(m:2))(n:1)))(n:1))))))))}{\Tree
+[.\node{\tt APP}; 
+[.\node{\tt 15:Z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt m};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 62:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt 37:ISZERO};]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 45:ZERO};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 62:IF};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 29:LT};]
+[.\node{\tt 2:m};]
+]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 2:m};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:f};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 35:SUB};]
+[.\node{\tt 2:m};]
+]
+[.\node{\tt 1:n};]
+]
+]
+[.\node{\tt 1:n};]
+]
+]
+]
+]
+]
+]
+]
+}
+\exptree{(@z.(@f.(@x.((((z:3)(TWO:43))(f:2))(x:1)))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt z};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:z};]
+[.\node{\tt 43:TWO};]
+]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+}
+\exptree{(@m.(((m:1)(@f.(@n.(((n:1)(f:2))((f:2)(@f.(@x.((f:2)(x:1)))))))))(@n.(@f.(@x.(((n:3)(f:2))((f:2)(x:1))))))))}{\Tree
+[.\node{\tt ABS}; 
+       [.\node{\tt m};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 1:m};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 1:n};]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+]
+]
+]
+[.\node{\tt ABS}; 
+       [.\node{\tt n};]
+[.\node{\tt ABS}; 
+       [.\node{\tt f};]
+[.\node{\tt ABS}; 
+       [.\node{\tt x};]
+[.\node{\tt APP}; 
+[.\node{\tt APP}; 
+[.\node{\tt 3:n};]
+[.\node{\tt 2:f};]
+]
+[.\node{\tt APP}; 
+[.\node{\tt 2:f};]
+[.\node{\tt 1:x};]
+]
+]
+]
+]
+]
+]
+]
+}
