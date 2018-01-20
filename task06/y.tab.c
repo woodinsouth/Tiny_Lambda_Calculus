@@ -17,23 +17,32 @@
 
 #define YYPURE 0
 
-#line 2 "grammar.y"
+#line 1 "grammar.y"
+
 /* the grammar of lambda expression */
 #include "tree.h"
+#include "closure.h"
 #include "type.h"
+/*#include "code.h"*/
 void yyerror (char const *);
 /************************************/
 
 char *name_env[MAX_ENV] = {"+", "-", "*", "/", "=", "<"};
 
 AST *ast_env[MAX_ENV];
-
 int current = INIT_POS;
-
 #define YYSTYPE AST *
 FILE *texfile;
+FILE *eval_tree;
 int is_decl = 0;
-#line 37 "y.tab.c"
+CLOSURE_LIST *init_clos;
+CBN_ENV *init_env_cbn; 
+extern FILE * yyin;
+extern int step;
+
+static void (* set_method)(char *, AST *);
+static void (* call_method)(AST *);
+#line 46 "y.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -240,30 +249,159 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 80 "grammar.y"
+#line 60 "grammar.y"
+
 
 void yyerror ( char const *s)
 {
   printf ("%s!\n", s);
 }
 
-extern FILE * yyin;
-int main ()
+void set_call_by_name(char *name, AST *ast)
 {
-  if ((texfile = fopen("expr.tex", "w")) == NULL) exit(1);
-  printf("please input a lambda term with \";\":\n");
+  CLOSURE *clos = NULL;
+  Type_ptr type = typing(NULL, ast, current);
 
-  yyin = fopen("library.txt","r");
-  if(yyin == NULL)
-  {
-    printf("predefined library can not be opened\n");
+  name_env[current] = (char *) name;
+  global_type_env [current] = storetype(type);
+  ast_env[current] = ast;
+
+  init_clos = make_list(clos, init_clos);
+  printf("%s is defined: \n", name);
+  printtype(type);
+  new_env();
+  clos = (eval_cbn(make_cbn_env(make_clos(ast, NULL,  current),NULL))) -> cbn_env;
+  printf("\n");
+  if( yyin == stdin) {
+    print_closure(clos);
+    printf("\n");
+    printf("please input a lambda term with \";\":\n");
   }
+  global_eval_env[current] = clos;
+  current++;
+  if (current == MAX_ENV) {
+    printf("%d, buffer exceeds!", current);
+    exit(1);
+  }
+}
+
+void set_call_by_value(char *name, AST *ast)
+{
+  Type_ptr type = typing(NULL, ast, current);
+  ast_env[current] = ast;
+  global_type_env [current] = storetype(type);
+  name_env[current] = name;
+
+  CLOSURE *clos = make_clos(clone_tree(ast), NULL, current);
+
+  printf("%s is defined: \n", name);
+  printtype(type);
+  printf("\n");
+  if( yyin == stdin) {
+    print_closure(clos);
+    printf("\nplease input a lambda term with \";\":\n");
+  } 
+ 
+  /*
+  OBJECT *exe_result;
+  exe_result = execution(compile(ast));
+  if (exe_result -> kind == CLOS)
+    exe_result -> env -> value = current;
+  global_exec_env[current] = exe_result;
+  */
+
+  new_env();
+  /* if (strcmp(name, "fact") == 0) { */
+  /*   printf("looop\n"); */
+  /*   CLOSURE_LIST *loop =  make_list(eval_cbv(clos), NULL); */
+  /*   loop -> next = loop; */
+  /*   init_eval_env[current] = loop;  */
+  /* } */
+  /* else */
+  global_eval_env[current] = eval_cbv(clos);
+  current++; 
+  if (current == MAX_ENV) {
+    printf("%d, buffer exceeds!", current);
+    exit(1);
+  }
+}
+
+void call_by_name(AST *ast)
+{
+  CLOSURE *clos = make_clos(ast, NULL, current);
+  Type_ptr type = typing(NULL, ast, current);
+  CBN_ENV *cbn_clos;
+  print_expression(ast, stdout);
+  printf(" |== ");
+  printtype (type);
+  printf("\n"); 
+  new_env();
+  printtree(ast);
+  print_closure(clos);
+  printf("\n");
+  cbn_clos = (eval_cbn(make_cbn_env(clos, NULL)));
+  print_closure(cbn_clos -> cbn_env);
+  free_cbn_env(cbn_clos);
+  printf("\nstep = %d\nplease input a lambda term with \";\":\n", step);
+  step = 0;
+}
+
+void call_by_value(AST * ast)
+{
+  printf("evaluating!!\n");
+  CLOSURE *clos = make_clos(ast, NULL, current);
+  Type_ptr type = typing(NULL, ast, current);
+  print_expression(ast, stdout);
+  printf(" |== ");
+  printtype (type);
+  printf("\n"); 
+  new_env();
+  printtree(ast);
+  print_closure(clos);
+  clos = eval_cbv(clos);
+  printf(" => ");
+  print_closure(clos);
+  free_clos(clos);
+  printf("\nstep = %d\nplease input a lambda term with \";\":\n",step);
+  step = 0;
+}
+
+int main(int argc, char ** argv)
+{
+  // select call_by_name or call_by_value by the argument
+  set_method = set_call_by_name;
+  call_method = call_by_name;
+  while (argc > 1) {
+    argc --; ++argv;
+    if (strcmp(argv[0], "-v") == 0) { 
+      set_method = set_call_by_value;
+      call_method = call_by_value;
+      break;
+    }  
+  }
+
+  eval_tree = fopen("evaltree.tex", "w");
+  fprintf(eval_tree, "\\begin{prooftree}\n");
+
+  // test the prededined library text
+  yyin = fopen("library.txt", "r");
+  if (yyin == NULL) {
+    printf("predefined library file can not be opened!\n");
+  }
+  //printf("please input a lambda term with \";\":\n");
+  init_eval();
   init_type_env();
+  // init_exec_env();
+  texfile = fopen("expr.tex", "w");
+  fprintf(texfile, "\\exptree{\\Tree\n");
   yyparse ();
+  fprintf(texfile, "}\n");
+  fprintf(eval_tree, "\\end{prooftree}\n");
+  fclose(eval_tree);
   fclose(texfile);
   return 0;
 }
-#line 267 "y.tab.c"
+#line 405 "y.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>	/* needed for printf */
@@ -463,78 +601,54 @@ yyreduce:
     switch (yyn)
     {
 case 3:
-#line 29 "grammar.y"
+#line 36 "grammar.y"
 	{is_decl = 1;}
 break;
 case 4:
-#line 29 "grammar.y"
+#line 36 "grammar.y"
 	{
-  name_env[current] = (char *)yystack.l_mark[-3]->lchild; 
-  ast_env[current] = yystack.l_mark[-1];
-  printtree(yystack.l_mark[-1]);
-
-  Type_ptr type = typing(NULL, yystack.l_mark[-1], current);
-  print_expression(yystack.l_mark[-1], stdout);
-  printf(" |== ");
-  printtype (type);
-  printf("\n"); 
-  printf("%s is defined!\n", (char *)yystack.l_mark[-3]->lchild);
-  global_type_env [current] = storetype(type);
-  new_env();
-  current++;
+  set_method((char *) yystack.l_mark[-3] -> lchild, yystack.l_mark[-1]);
   }
 break;
 case 5:
-#line 45 "grammar.y"
-	{ 
-  printtree(yystack.l_mark[-1]); 
-  Type_ptr type = typing(NULL, yystack.l_mark[-1], current);
-  print_expression(yystack.l_mark[3], stdout);
-  printf(" |== ");
-  printtype (type);
-  printf("\n"); 
-  new_env();
-}
-break;
-case 6:
-#line 57 "grammar.y"
-	{yyval = yystack.l_mark[0]; }
+#line 39 "grammar.y"
+	{
+  /*printf("\nevaluating!\n");*/
+  call_method(yystack.l_mark[-1]);
+  }
 break;
 case 7:
-#line 58 "grammar.y"
+#line 46 "grammar.y"
 	{
-  yystack.l_mark[0]->value = find_deepth((char *)yystack.l_mark[0]->lchild);
-  yyval = yystack.l_mark[0];
-  }
-break;
-case 8:
-#line 63 "grammar.y"
-	{
-  yyval = make_cond(yystack.l_mark[-5],yystack.l_mark[-3],yystack.l_mark[-1]);
-  }
-break;
-case 9:
-#line 67 "grammar.y"
-	{ yyval = yystack.l_mark[-1]; }
-break;
-case 10:
-#line 69 "grammar.y"
-	{ name_env[current++] = (char *)yystack.l_mark[0]->lchild; }
-break;
-case 11:
-#line 69 "grammar.y"
-	{ 
-  yyval = make_abs((char *)yystack.l_mark[-3]->lchild, yystack.l_mark[0]);
-  current--;
+   int deepth = find_deepth((char *) yystack.l_mark[0] -> lchild);
+   yyval = yystack.l_mark[0], yyval -> value = deepth;
  }
 break;
-case 12:
-#line 74 "grammar.y"
-	{
-  yyval = make_app(yystack.l_mark[-1], yystack.l_mark[0]); 
-  }
+case 8:
+#line 50 "grammar.y"
+	{yyval = make_cond(yystack.l_mark[-5], yystack.l_mark[-3], yystack.l_mark[-1]);}
 break;
-#line 538 "y.tab.c"
+case 9:
+#line 51 "grammar.y"
+	{ yyval = yystack.l_mark[-1];}
+break;
+case 10:
+#line 52 "grammar.y"
+	{ name_env[current] = (char *) yystack.l_mark[0] ->lchild ;
+   current++; }
+break;
+case 11:
+#line 53 "grammar.y"
+	{ 
+  yyval = make_abs( (char *) yystack.l_mark[-3] -> lchild, yystack.l_mark[0]);
+  sfree (yystack.l_mark[-3]);
+  current--; }
+break;
+case 12:
+#line 57 "grammar.y"
+	{yyval = make_app(yystack.l_mark[-1], yystack.l_mark[0]); }
+break;
+#line 652 "y.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

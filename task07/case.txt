@@ -1,0 +1,12 @@
+ switch a
+      begin
+        case 100: a:=100 ; break; a:=1
+        case 0: 
+        case 1:  case 11: case 12:
+        case 2: a:=2
+        case 3: a:=b+c*c
+        case 4: 
+
+        case default: a:=a+d
+      end .
+

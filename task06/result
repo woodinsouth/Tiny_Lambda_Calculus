@@ -1,0 +1,96 @@
+K is defined: 
+(A -> (B -> A))
+I is defined: 
+(A -> A)
+S is defined: 
+((A -> (B -> C)) -> ((A -> B) -> (A -> C)))
+F is defined: 
+(A -> ((A -> A) -> A))
+type A and type (A -> B) can't be unified!
+OMEGA is defined: 
+NULL
+TRUE is defined: 
+(A -> (B -> A))
+FALSE is defined: 
+(A -> (B -> B))
+IF is defined: 
+((A -> (B -> C)) -> (A -> (B -> C)))
+OR is defined: 
+(((A -> (B -> A)) -> (C -> D)) -> (C -> D))
+AND is defined: 
+((A -> ((B -> (C -> C)) -> D)) -> (A -> D))
+NOT is defined: 
+(((A -> (B -> B)) -> ((C -> (D -> C)) -> E)) -> E)
+PAIR is defined: 
+(A -> (B -> ((A -> (B -> C)) -> C)))
+FST is defined: 
+(((A -> (B -> A)) -> C) -> C)
+SND is defined: 
+(((A -> (B -> B)) -> C) -> C)
+CONS is defined: 
+(A -> (B -> ((A -> (B -> C)) -> C)))
+HEAD is defined: 
+(((A -> (B -> A)) -> C) -> C)
+TAIL is defined: 
+(((A -> (B -> B)) -> C) -> C)
+NIL is defined: 
+(A -> (B -> (C -> B)))
+NULL is defined: 
+(((A -> (B -> (C -> (D -> D)))) -> E) -> E)
+PNIL is defined: 
+(A -> A)
+PCONS is defined: 
+(A -> (B -> (((C -> (D -> D)) -> (((A -> (A -> E)) -> E) -> F)) -> F)))
+PNULL is defined: 
+(((A -> (B -> A)) -> C) -> C)
+PHD is defined: 
+(((A -> (B -> B)) -> ((C -> (D -> C)) -> E)) -> E)
+PTL is defined: 
+(((A -> (B -> B)) -> ((C -> (D -> D)) -> E)) -> E)
+ZERO is defined: 
+(A -> (B -> B))
+SUCC is defined: 
+(((A -> B) -> (C -> A)) -> ((A -> B) -> (C -> B)))
+ONE is defined: 
+((A -> B) -> (A -> B))
+TWO is defined: 
+((A -> A) -> (A -> A))
+THREE is defined: 
+((A -> A) -> (A -> A))
+FOUR is defined: 
+((A -> A) -> (A -> A))
+FIVE is defined: 
+((A -> A) -> (A -> A))
+PRED is defined: 
+(((((A -> (B -> A)) -> C) -> ((D -> (C -> E)) -> E)) -> (((F -> (F -> G)) -> G) -> ((H -> (I -> I)) -> J))) -> ((C -> D) -> (F -> J)))
+ISZERO is defined: 
+(((A -> (B -> (C -> C))) -> ((D -> (E -> D)) -> F)) -> F)
+ADD is defined: 
+(((((A -> B) -> (C -> A)) -> ((A -> B) -> (C -> B))) -> (D -> E)) -> (D -> E))
+SUB is defined: 
+(A -> (((((((B -> (C -> B)) -> D) -> ((E -> (D -> F)) -> F)) -> (((G -> (G -> H)) -> H) -> ((I -> (J -> J)) -> K))) -> ((D -> E) -> (G -> K))) -> (A -> L)) -> L))
+MULT is defined: 
+(((A -> B) -> ((C -> (D -> D)) -> E)) -> (((((F -> G) -> (H -> F)) -> ((F -> G) -> (H -> G))) -> (A -> B)) -> E))
+GE is defined: 
+(((((((A -> (B -> A)) -> C) -> ((D -> (C -> E)) -> E)) -> (((F -> (F -> G)) -> G) -> ((H -> (I -> I)) -> J))) -> ((C -> D) -> (F -> J))) -> (K -> ((L -> (M -> (N -> N))) -> ((O -> (P -> O)) -> Q)))) -> (K -> Q))
+LE is defined: 
+(A -> (((((((B -> (C -> B)) -> D) -> ((E -> (D -> F)) -> F)) -> (((G -> (G -> H)) -> H) -> ((I -> (J -> J)) -> K))) -> ((D -> E) -> (G -> K))) -> (A -> ((L -> (M -> (N -> N))) -> ((O -> (P -> O)) -> Q)))) -> Q))
+type ((((((A -> (B -> A)) -> C) -> ((D -> (C -> E)) -> E)) -> (((F -> (F -> G)) -> G) -> ((H -> (I -> I)) -> J))) -> ((C -> D) -> (F -> J))) -> (((((((K -> (L -> K)) -> M) -> ((N -> (M -> O)) -> O)) -> (((P -> (P -> Q)) -> Q) -> ((R -> (S -> S)) -> T))) -> ((M -> N) -> (P -> T))) -> (U -> ((V -> (W -> (X -> X))) -> ((Y -> (Z -> Y)) -> (A1 -> ((B1 -> (C1 -> C1)) -> D1)))))) -> ((E1 -> (F1 -> (G1 -> G1))) -> ((H1 -> (I1 -> H1)) -> J1)))) and type U can't be unified!
+EQ is defined: 
+NULL
+GT is defined: 
+(A -> (((((((B -> (C -> B)) -> D) -> ((E -> (D -> F)) -> F)) -> (((G -> (G -> H)) -> H) -> ((I -> (J -> J)) -> K))) -> ((D -> E) -> (G -> K))) -> (A -> ((L -> (M -> (N -> N))) -> ((O -> (P -> O)) -> ((Q -> (R -> R)) -> ((S -> (T -> S)) -> U)))))) -> U))
+LT is defined: 
+(((((((A -> (B -> A)) -> C) -> ((D -> (C -> E)) -> E)) -> (((F -> (F -> G)) -> G) -> ((H -> (I -> I)) -> J))) -> ((C -> D) -> (F -> J))) -> (K -> ((L -> (M -> (N -> N))) -> ((O -> (P -> O)) -> ((Q -> (R -> R)) -> ((S -> (T -> S)) -> U)))))) -> (K -> U))
+NE is defined: 
+NULL
+XADD is defined: 
+((A -> (B -> C)) -> ((A -> (D -> B)) -> (A -> (D -> C))))
+XMULT is defined: 
+(((A -> B) -> (C -> D)) -> ((E -> (A -> B)) -> (E -> (C -> D))))
+PZERO is defined: 
+(((A -> (B -> B)) -> ((C -> (D -> D)) -> E)) -> E)
+PSUCC is defined: 
+(((A -> (B -> B)) -> ((C -> D) -> (E -> C))) -> ((((C -> D) -> (E -> C)) -> (((C -> D) -> (E -> D)) -> F)) -> F))
+PREX is defined: 
+(((((A -> (B -> B)) -> ((C 

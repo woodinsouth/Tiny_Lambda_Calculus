@@ -1,0 +1,2 @@
+if a>b or c>d and e<f then a:=0 else a:=1;
+a:=1000.

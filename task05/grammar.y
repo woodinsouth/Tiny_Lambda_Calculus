@@ -88,6 +88,12 @@ int main ()
 {
   if ((texfile = fopen("expr.tex", "w")) == NULL) exit(1);
   printf("please input a lambda term with \";\":\n");
+
+  yyin = fopen("library.txt","r");
+  if(yyin == NULL)
+  {
+    printf("predefined library can not be opened\n");
+  }
   init_type_env();
   yyparse ();
   fclose(texfile);

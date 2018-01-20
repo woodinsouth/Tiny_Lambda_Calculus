@@ -1,0 +1,9 @@
+while (a > b and c > d) do
+  begin 
+    if not (e > f and not (i > j)) then
+      x := x + 1
+    else 
+      break;
+    if (m > n) then continue;
+    y := y + 2
+ end.

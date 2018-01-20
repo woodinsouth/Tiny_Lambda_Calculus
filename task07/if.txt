@@ -1,0 +1,8 @@
+
+if a = 0 then
+   if b = 0 then
+      if c = 0 then
+        if d = 0 then
+          e:=0;
+
+f:=1.

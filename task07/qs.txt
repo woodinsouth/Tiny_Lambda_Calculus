@@ -1,0 +1,18 @@
+begin
+if (n <=m) then  a:=10;
+i := m -1;
+j := n;
+v := a[n];
+while (true) do
+  begin
+  repeat i := i + 1  until  a[i] > v;
+  repeat j := j-1 until a[j]>=v;
+   if (i >=j) then break;
+   x := a[i];
+   a[i] := a[j];
+   a[j] := x
+   end;
+ x := a[i];
+ a[i] := a[n];
+ a[n] := x
+end.

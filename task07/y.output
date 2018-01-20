@@ -1,0 +1,1128 @@
+   0  $accept : p $end
+
+   1  p : s_list '.'
+
+   2  s_list : s
+   3         | s_list ';' s
+
+   4  s : BREAK
+   5    | CONTINUE
+   6    | IF b_e THEN s
+   7    | IF b_e THEN s ELSE s
+   8    | REPEAT s_list UNTIL b_e
+   9    | WHILE b_e DO s
+  10    | FOR ID ASSIGN e TO e DO s
+  11    | SBEGIN s_list ';' END
+  12    | SBEGIN s_list END
+  13    | l ASSIGN e
+  14    | SWITCH e SBEGIN case_list END
+
+  15  case_list :
+  16            | case_list CASE ID ':'
+  17            | case_list CASE ID ':' s_list
+  18            | case_list CASE DEFAULT ':' s_list
+
+  19  l : ID
+  20    | ID '[' e_list ']'
+
+  21  e : e '+' e
+  22    | e '*' e
+  23    | e '-' e
+  24    | '-' e
+  25    | '(' e ')'
+  26    | l
+  27    | ID '(' e_list ')'
+
+  28  e_list : e
+  29         | e_list ',' e
+
+  30  b_e : b_e OR b_e
+  31      | b_e AND b_e
+  32      | NOT b_e
+  33      | '(' b_e ')'
+  34      | e RELOP e
+  35      | TRUE
+  36      | FALSE
+
+state 0
+	$accept : . p $end  (0)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	p  goto 10
+	s_list  goto 11
+	s  goto 12
+	l  goto 13
+
+
+state 1
+	s : IF . b_e THEN s  (6)
+	s : IF . b_e THEN s ELSE s  (7)
+
+	ID  shift 14
+	NOT  shift 15
+	TRUE  shift 16
+	FALSE  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	b_e  goto 20
+	e  goto 21
+	l  goto 22
+
+
+state 2
+	s : WHILE . b_e DO s  (9)
+
+	ID  shift 14
+	NOT  shift 15
+	TRUE  shift 16
+	FALSE  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	b_e  goto 23
+	e  goto 21
+	l  goto 22
+
+
+state 3
+	s : SBEGIN . s_list ';' END  (11)
+	s : SBEGIN . s_list END  (12)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s_list  goto 24
+	s  goto 12
+	l  goto 13
+
+
+state 4
+	l : ID .  (19)
+	l : ID . '[' e_list ']'  (20)
+
+	'['  shift 25
+	ASSIGN  reduce 19
+
+
+state 5
+	s : BREAK .  (4)
+
+	.  reduce 4
+
+
+state 6
+	s : CONTINUE .  (5)
+
+	.  reduce 5
+
+
+state 7
+	s : FOR . ID ASSIGN e TO e DO s  (10)
+
+	ID  shift 26
+	.  error
+
+
+state 8
+	s : SWITCH . e SBEGIN case_list END  (14)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 28
+	l  goto 22
+
+
+state 9
+	s : REPEAT . s_list UNTIL b_e  (8)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s_list  goto 29
+	s  goto 12
+	l  goto 13
+
+
+state 10
+	$accept : p . $end  (0)
+
+	$end  accept
+
+
+state 11
+	p : s_list . '.'  (1)
+	s_list : s_list . ';' s  (3)
+
+	'.'  shift 30
+	';'  shift 31
+	.  error
+
+
+state 12
+	s_list : s .  (2)
+
+	.  reduce 2
+
+
+state 13
+	s : l . ASSIGN e  (13)
+
+	ASSIGN  shift 32
+	.  error
+
+
+state 14
+	l : ID .  (19)
+	l : ID . '[' e_list ']'  (20)
+	e : ID . '(' e_list ')'  (27)
+
+	'['  shift 25
+	'('  shift 33
+	THEN  reduce 19
+	ELSE  reduce 19
+	DO  reduce 19
+	SBEGIN  reduce 19
+	END  reduce 19
+	AND  reduce 19
+	OR  reduce 19
+	RELOP  reduce 19
+	TO  reduce 19
+	CASE  reduce 19
+	UNTIL  reduce 19
+	'+'  reduce 19
+	'-'  reduce 19
+	'*'  reduce 19
+	'.'  reduce 19
+	';'  reduce 19
+	']'  reduce 19
+	')'  reduce 19
+	','  reduce 19
+
+
+state 15
+	b_e : NOT . b_e  (32)
+
+	ID  shift 14
+	NOT  shift 15
+	TRUE  shift 16
+	FALSE  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	b_e  goto 34
+	e  goto 21
+	l  goto 22
+
+
+state 16
+	b_e : TRUE .  (35)
+
+	.  reduce 35
+
+
+state 17
+	b_e : FALSE .  (36)
+
+	.  reduce 36
+
+
+state 18
+	e : '-' . e  (24)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 35
+	l  goto 22
+
+
+state 19
+	e : '(' . e ')'  (25)
+	b_e : '(' . b_e ')'  (33)
+
+	ID  shift 14
+	NOT  shift 15
+	TRUE  shift 16
+	FALSE  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	b_e  goto 36
+	e  goto 37
+	l  goto 22
+
+
+state 20
+	s : IF b_e . THEN s  (6)
+	s : IF b_e . THEN s ELSE s  (7)
+	b_e : b_e . OR b_e  (30)
+	b_e : b_e . AND b_e  (31)
+
+	THEN  shift 38
+	AND  shift 39
+	OR  shift 40
+	.  error
+
+
+state 21
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	b_e : e . RELOP e  (34)
+
+	RELOP  shift 41
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	.  error
+
+
+state 22
+	e : l .  (26)
+
+	.  reduce 26
+
+
+state 23
+	s : WHILE b_e . DO s  (9)
+	b_e : b_e . OR b_e  (30)
+	b_e : b_e . AND b_e  (31)
+
+	DO  shift 45
+	AND  shift 39
+	OR  shift 40
+	.  error
+
+
+state 24
+	s_list : s_list . ';' s  (3)
+	s : SBEGIN s_list . ';' END  (11)
+	s : SBEGIN s_list . END  (12)
+
+	END  shift 46
+	';'  shift 47
+	.  error
+
+
+state 25
+	l : ID '[' . e_list ']'  (20)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 48
+	l  goto 22
+	e_list  goto 49
+
+
+state 26
+	s : FOR ID . ASSIGN e TO e DO s  (10)
+
+	ASSIGN  shift 50
+	.  error
+
+
+state 27
+	e : '(' . e ')'  (25)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 51
+	l  goto 22
+
+
+state 28
+	s : SWITCH e . SBEGIN case_list END  (14)
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+
+	SBEGIN  shift 52
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	.  error
+
+
+state 29
+	s_list : s_list . ';' s  (3)
+	s : REPEAT s_list . UNTIL b_e  (8)
+
+	UNTIL  shift 53
+	';'  shift 31
+	.  error
+
+
+state 30
+	p : s_list '.' .  (1)
+
+	.  reduce 1
+
+
+state 31
+	s_list : s_list ';' . s  (3)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s  goto 54
+	l  goto 13
+
+
+state 32
+	s : l ASSIGN . e  (13)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 55
+	l  goto 22
+
+
+state 33
+	e : ID '(' . e_list ')'  (27)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 48
+	l  goto 22
+	e_list  goto 56
+
+
+state 34
+	b_e : b_e . OR b_e  (30)
+	b_e : b_e . AND b_e  (31)
+	b_e : NOT b_e .  (32)
+
+	.  reduce 32
+
+
+state 35
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	e : '-' e .  (24)
+
+	.  reduce 24
+
+
+state 36
+	b_e : b_e . OR b_e  (30)
+	b_e : b_e . AND b_e  (31)
+	b_e : '(' b_e . ')'  (33)
+
+	AND  shift 39
+	OR  shift 40
+	')'  shift 57
+	.  error
+
+
+state 37
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	e : '(' e . ')'  (25)
+	b_e : e . RELOP e  (34)
+
+	RELOP  shift 41
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	')'  shift 58
+	.  error
+
+
+state 38
+	s : IF b_e THEN . s  (6)
+	s : IF b_e THEN . s ELSE s  (7)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s  goto 59
+	l  goto 13
+
+
+state 39
+	b_e : b_e AND . b_e  (31)
+
+	ID  shift 14
+	NOT  shift 15
+	TRUE  shift 16
+	FALSE  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	b_e  goto 60
+	e  goto 21
+	l  goto 22
+
+
+state 40
+	b_e : b_e OR . b_e  (30)
+
+	ID  shift 14
+	NOT  shift 15
+	TRUE  shift 16
+	FALSE  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	b_e  goto 61
+	e  goto 21
+	l  goto 22
+
+
+state 41
+	b_e : e RELOP . e  (34)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 62
+	l  goto 22
+
+
+state 42
+	e : e '+' . e  (21)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 63
+	l  goto 22
+
+
+state 43
+	e : e '-' . e  (23)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 64
+	l  goto 22
+
+
+state 44
+	e : e '*' . e  (22)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 65
+	l  goto 22
+
+
+state 45
+	s : WHILE b_e DO . s  (9)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s  goto 66
+	l  goto 13
+
+
+state 46
+	s : SBEGIN s_list END .  (12)
+
+	.  reduce 12
+
+
+state 47
+	s_list : s_list ';' . s  (3)
+	s : SBEGIN s_list ';' . END  (11)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	END  shift 67
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s  goto 54
+	l  goto 13
+
+
+state 48
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	e_list : e .  (28)
+
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	']'  reduce 28
+	')'  reduce 28
+	','  reduce 28
+
+
+state 49
+	l : ID '[' e_list . ']'  (20)
+	e_list : e_list . ',' e  (29)
+
+	']'  shift 68
+	','  shift 69
+	.  error
+
+
+state 50
+	s : FOR ID ASSIGN . e TO e DO s  (10)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 70
+	l  goto 22
+
+
+state 51
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	e : '(' e . ')'  (25)
+
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	')'  shift 58
+	.  error
+
+
+state 52
+	s : SWITCH e SBEGIN . case_list END  (14)
+	case_list : .  (15)
+
+	.  reduce 15
+
+	case_list  goto 71
+
+
+state 53
+	s : REPEAT s_list UNTIL . b_e  (8)
+
+	ID  shift 14
+	NOT  shift 15
+	TRUE  shift 16
+	FALSE  shift 17
+	'-'  shift 18
+	'('  shift 19
+	.  error
+
+	b_e  goto 72
+	e  goto 21
+	l  goto 22
+
+
+state 54
+	s_list : s_list ';' s .  (3)
+
+	.  reduce 3
+
+
+state 55
+	s : l ASSIGN e .  (13)
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	ELSE  reduce 13
+	END  reduce 13
+	CASE  reduce 13
+	UNTIL  reduce 13
+	'.'  reduce 13
+	';'  reduce 13
+
+
+state 56
+	e : ID '(' e_list . ')'  (27)
+	e_list : e_list . ',' e  (29)
+
+	')'  shift 73
+	','  shift 69
+	.  error
+
+
+state 57
+	b_e : '(' b_e ')' .  (33)
+
+	.  reduce 33
+
+
+state 58
+	e : '(' e ')' .  (25)
+
+	.  reduce 25
+
+
+59: shift/reduce conflict (shift 74, reduce 6) on ELSE
+state 59
+	s : IF b_e THEN s .  (6)
+	s : IF b_e THEN s . ELSE s  (7)
+
+	ELSE  shift 74
+	END  reduce 6
+	CASE  reduce 6
+	UNTIL  reduce 6
+	'.'  reduce 6
+	';'  reduce 6
+
+
+state 60
+	b_e : b_e . OR b_e  (30)
+	b_e : b_e . AND b_e  (31)
+	b_e : b_e AND b_e .  (31)
+
+	.  reduce 31
+
+
+state 61
+	b_e : b_e . OR b_e  (30)
+	b_e : b_e OR b_e .  (30)
+	b_e : b_e . AND b_e  (31)
+
+	AND  shift 39
+	THEN  reduce 30
+	ELSE  reduce 30
+	DO  reduce 30
+	END  reduce 30
+	OR  reduce 30
+	CASE  reduce 30
+	UNTIL  reduce 30
+	'.'  reduce 30
+	';'  reduce 30
+	')'  reduce 30
+
+
+state 62
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	b_e : e RELOP e .  (34)
+
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	THEN  reduce 34
+	ELSE  reduce 34
+	DO  reduce 34
+	END  reduce 34
+	AND  reduce 34
+	OR  reduce 34
+	CASE  reduce 34
+	UNTIL  reduce 34
+	'.'  reduce 34
+	';'  reduce 34
+	')'  reduce 34
+
+
+state 63
+	e : e . '+' e  (21)
+	e : e '+' e .  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+
+	'*'  shift 44
+	THEN  reduce 21
+	ELSE  reduce 21
+	DO  reduce 21
+	SBEGIN  reduce 21
+	END  reduce 21
+	AND  reduce 21
+	OR  reduce 21
+	RELOP  reduce 21
+	TO  reduce 21
+	CASE  reduce 21
+	UNTIL  reduce 21
+	'+'  reduce 21
+	'-'  reduce 21
+	'.'  reduce 21
+	';'  reduce 21
+	']'  reduce 21
+	')'  reduce 21
+	','  reduce 21
+
+
+state 64
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	e : e '-' e .  (23)
+
+	'*'  shift 44
+	THEN  reduce 23
+	ELSE  reduce 23
+	DO  reduce 23
+	SBEGIN  reduce 23
+	END  reduce 23
+	AND  reduce 23
+	OR  reduce 23
+	RELOP  reduce 23
+	TO  reduce 23
+	CASE  reduce 23
+	UNTIL  reduce 23
+	'+'  reduce 23
+	'-'  reduce 23
+	'.'  reduce 23
+	';'  reduce 23
+	']'  reduce 23
+	')'  reduce 23
+	','  reduce 23
+
+
+state 65
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e '*' e .  (22)
+	e : e . '-' e  (23)
+
+	.  reduce 22
+
+
+state 66
+	s : WHILE b_e DO s .  (9)
+
+	.  reduce 9
+
+
+state 67
+	s : SBEGIN s_list ';' END .  (11)
+
+	.  reduce 11
+
+
+state 68
+	l : ID '[' e_list ']' .  (20)
+
+	.  reduce 20
+
+
+state 69
+	e_list : e_list ',' . e  (29)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 75
+	l  goto 22
+
+
+state 70
+	s : FOR ID ASSIGN e . TO e DO s  (10)
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+
+	TO  shift 76
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	.  error
+
+
+state 71
+	s : SWITCH e SBEGIN case_list . END  (14)
+	case_list : case_list . CASE ID ':'  (16)
+	case_list : case_list . CASE ID ':' s_list  (17)
+	case_list : case_list . CASE DEFAULT ':' s_list  (18)
+
+	END  shift 77
+	CASE  shift 78
+	.  error
+
+
+state 72
+	s : REPEAT s_list UNTIL b_e .  (8)
+	b_e : b_e . OR b_e  (30)
+	b_e : b_e . AND b_e  (31)
+
+	AND  shift 39
+	OR  shift 40
+	ELSE  reduce 8
+	END  reduce 8
+	CASE  reduce 8
+	UNTIL  reduce 8
+	'.'  reduce 8
+	';'  reduce 8
+
+
+state 73
+	e : ID '(' e_list ')' .  (27)
+
+	.  reduce 27
+
+
+state 74
+	s : IF b_e THEN s ELSE . s  (7)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s  goto 79
+	l  goto 13
+
+
+state 75
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+	e_list : e_list ',' e .  (29)
+
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	']'  reduce 29
+	')'  reduce 29
+	','  reduce 29
+
+
+state 76
+	s : FOR ID ASSIGN e TO . e DO s  (10)
+
+	ID  shift 14
+	'-'  shift 18
+	'('  shift 27
+	.  error
+
+	e  goto 80
+	l  goto 22
+
+
+state 77
+	s : SWITCH e SBEGIN case_list END .  (14)
+
+	.  reduce 14
+
+
+state 78
+	case_list : case_list CASE . ID ':'  (16)
+	case_list : case_list CASE . ID ':' s_list  (17)
+	case_list : case_list CASE . DEFAULT ':' s_list  (18)
+
+	ID  shift 81
+	DEFAULT  shift 82
+	.  error
+
+
+state 79
+	s : IF b_e THEN s ELSE s .  (7)
+
+	.  reduce 7
+
+
+state 80
+	s : FOR ID ASSIGN e TO e . DO s  (10)
+	e : e . '+' e  (21)
+	e : e . '*' e  (22)
+	e : e . '-' e  (23)
+
+	DO  shift 83
+	'+'  shift 42
+	'-'  shift 43
+	'*'  shift 44
+	.  error
+
+
+state 81
+	case_list : case_list CASE ID . ':'  (16)
+	case_list : case_list CASE ID . ':' s_list  (17)
+
+	':'  shift 84
+	.  error
+
+
+state 82
+	case_list : case_list CASE DEFAULT . ':' s_list  (18)
+
+	':'  shift 85
+	.  error
+
+
+state 83
+	s : FOR ID ASSIGN e TO e DO . s  (10)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s  goto 86
+	l  goto 13
+
+
+state 84
+	case_list : case_list CASE ID ':' .  (16)
+	case_list : case_list CASE ID ':' . s_list  (17)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	END  reduce 16
+	CASE  reduce 16
+
+	s_list  goto 87
+	s  goto 12
+	l  goto 13
+
+
+state 85
+	case_list : case_list CASE DEFAULT ':' . s_list  (18)
+
+	IF  shift 1
+	WHILE  shift 2
+	SBEGIN  shift 3
+	ID  shift 4
+	BREAK  shift 5
+	CONTINUE  shift 6
+	FOR  shift 7
+	SWITCH  shift 8
+	REPEAT  shift 9
+	.  error
+
+	s_list  goto 88
+	s  goto 12
+	l  goto 13
+
+
+state 86
+	s : FOR ID ASSIGN e TO e DO s .  (10)
+
+	.  reduce 10
+
+
+state 87
+	s_list : s_list . ';' s  (3)
+	case_list : case_list CASE ID ':' s_list .  (17)
+
+	';'  shift 31
+	END  reduce 17
+	CASE  reduce 17
+
+
+state 88
+	s_list : s_list . ';' s  (3)
+	case_list : case_list CASE DEFAULT ':' s_list .  (18)
+
+	';'  shift 31
+	END  reduce 18
+	CASE  reduce 18
+
+
+State 59 contains 1 shift/reduce conflict.
+
+
+38 terminals, 9 nonterminals
+37 grammar rules, 89 states
