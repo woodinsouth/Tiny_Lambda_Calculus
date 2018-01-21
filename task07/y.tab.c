@@ -197,11 +197,12 @@ void back_patching(CODE *code, char * label, CODE *last)
 {
   /* if last is null then backpatching all list.
      if last is the tail then backpatching all list except the tail */
-
+  /*printf("-------------\n");*/
   CODE * tmp;
   if (code == last || code == NULL) return;
    
   while (code != last) {
+    /*printf("%s %s\n",tmp->code, tmp->label);*/
     tmp = (CODE *) code ->label;
     code -> label = label;
     code = tmp;
@@ -331,12 +332,60 @@ ATT combine(ATT att1, ATT att2, int mode)
 
 ATT translate_repeat(ATT body, ATT cond)
 {
-  /* TODO */
+  /* only when cond has mutiple truelist, we need a outside label and label truelist without truetail with outside label*/
+  CODE *thead = cond.true_list;
+  CODE *ttail = get_tail(thead);
+  body.true_list = cut_last(thead,ttail);
+  /* newcode judging by the cond expression*/
+  char * newcode = (char *) malloc (strlen(ttail->code) + 20);
+  if(ttail->code[0]=='1')
+    sprintf(newcode, "ifnot %s goto ", ttail-> code + 1);
+  else
+    sprintf(newcode, "if %s goto ", ttail-> code +1);
+  ttail->code = newcode;
+  /* new label for cond */
+  body.code = get_first(body.code);
+  /* backpathing the cond.false_list with body.label*/
+  CODE *fhead = cond.false_list;
+  CODE *ftail = get_tail(fhead);
+  CODE *tmp;
+  do
+  {
+    if(fhead != ftail) 
+      tmp = (CODE *)fhead->label;
+    else
+      tmp = NULL;
+    fhead->label = body.code->label;
+    fhead = tmp;
+  }while(tmp != NULL);
+  body.code = join_code(body.code, cond.code); 
+  return body;
 }
 
 ATT translate_while (ATT cond, ATT body)
 {
-  /* TODO */
+  /* new label for cond */
+  cond.code = get_first(cond.code);
+  /* backpatching body.continue list with new label*/
+  /* only when cond has mutiple truelist, we need a new label for body and label truelist without truetail with body.label*/
+  CODE *thead = cond.true_list;
+  CODE *ttail = get_tail(thead);
+  if(thead!=ttail) 
+    body.code = get_first(body.code); 
+  back_patching(thead,body.code->label,ttail);/* backpatching truelist code with s.label*/
+  /* newcode judging by the cond expression*/
+  char * newcode = (char *) malloc (strlen(ttail->code) + 20);
+  if(ttail->code[0]=='1')
+    sprintf(newcode, "ifnot %s goto ", ttail-> code + 1);
+  else
+    sprintf(newcode, "if %s goto ", ttail-> code +1);
+  ttail->code = newcode;
+  /* for break and continue*/
+  CODE * goto_s = make_code("goto", cond.code->label);
+  cond.code = join_code(cond.code, body.code);
+  cond.code = join_code(cond.code, goto_s);
+  cond.true_list = merge(cond.false_list, body.true_list);
+  return cond;
 }
 
 ATT translate_not(ATT a)
@@ -428,47 +477,65 @@ int is_continue(ATT s)
 
 ATT translate_if_then (ATT cond, ATT s)
 {
-
-  CODE * tmp = cond.false_list;
-  while(tmp != NULL)
-  {
-    tmp->label = (char *)tmp->next;
-    tmp = tmp->next;
-  }
-  tmp = cond.code;
-  while(tmp != NULL)
-  {
-    printf("%s\n", tmp->label);
-    printf("%s\n", tmp->code);
-    tmp = tmp->next;
-  }
-  ATT att = combine(cond, s, FILL_TRUE);
-  att.true_list = cond.false_list;
-  return att;
+  /* CODE *head = cond.true_list;*/
+  /* CODE *tail = get_tail(cond.true_list);*/
+  /* // only when cond has mutiple truelist, we need a new label for s*/
+  /* if(head!=tail) */
+  /*   s.code = get_first(s.code); */
+  /* back_patching(head,s.code->label,tail);// backpatching truelist code with s.label*/
+  /* // newcode judging by the cond expression*/
+  /* char * newcode = (char *) malloc (strlen(tail->code) + 20);*/
+  /* if(tail->code[0]=='1')*/
+  /*   sprintf(newcode, "ifnot %s goto ", tail-> code + 1);*/
+  /* else*/
+  /*   sprintf(newcode, "if %s goto ", tail-> code +1);*/
+  /* // break list*/
+  /* tail->code = newcode;*/
+  if(s.break_list!=NULL) printf("mmm\n");
+  merge_break_continue(cond,s);
+  printf("%s\n", cond.break_list);
+  cond.code = join_code(cond.code, s.code);
+  cond.true_list = merge(cond.true_list,s.true_list); /* the entry that need backtracing with  exit the outside label*/
+  return cond;
 }
 
 ATT translate_if_then_else (ATT cond, ATT s1, ATT s2)
 {
-  CODE * tmp = cond.false_list;
-  while(tmp != NULL)
+  /* only when cond has mutiple falselist, we need a new label for s2 and  backpatching cond.falselist code with s.label*/
+  CODE *fhead = cond.false_list;
+  CODE *ftail = get_tail(cond.false_list);
+  if(fhead!=ftail) 
+    s2.code = get_first(s2.code); 
+  back_patching(fhead,s2.code->label,ftail);
+  /* newcode judging by the cond expression*/
+  char * newcode = (char *) malloc (strlen(ftail->code) + 20);
+  if(ftail->code[0]=='0')
+    sprintf(newcode, "ifnot %s goto ", ftail-> code + 1);
+  else
+    sprintf(newcode, "if %s goto ", ftail-> code +1);
+  ftail->code = newcode;
+  /* new label for s1 and backpatching cond.true_list with s1.label*/
+  s1.code = get_first(s1.code);
+  CODE *thead = cond.true_list;
+  CODE *ttail = get_tail(thead);
+  CODE *tmp;
+  do
   {
-    if(tmp->code != NULL) tmp->label = (char *)tmp->next;
-    tmp = tmp->next;
-  }
+    if(thead != ttail) 
+      tmp = (CODE *)thead->label;
+    else
+      tmp = NULL;
+    thead->label = s1.code->label;
+    thead = tmp;
+  }while(tmp != NULL);
 
-  ATT att = combine(cond, s2, FILL_FALSE);
-  att.false_list = cond.true_list;
-
-  CODE * goto_s = make_code("goto", NULL);
-  att.code = join_code(att.code, goto_s);
-
-  CODE * label_s = make_code(NULL, new_label());
-  att.code = join_code(att.code, label_s);
-  back_patching(att.false_list, label_s->label, NULL);
-  att.code = join_code(att.code, s1.code);
-  att.true_list = goto_s;
-  att.false_list = NULL;
-  return att;
+  CODE * goto_s = make_code("goto", NULL); /* goto for s2 end*/
+  cond.code = join_code(cond.code, s2.code);
+  cond.code = join_code(cond.code, goto_s);
+  cond.code = join_code(cond.code, s1.code);
+  cond.true_list = merge(goto_s,s1.true_list); /* the entry that need backtracing with  exit the outside label*/
+  cond.true_list = merge(cond.true_list,s2.true_list); /* the entry that need backtracing with  exit the outside label*/
+  return cond;
 }
 
 #define YYSTYPE   ATT
@@ -476,7 +543,7 @@ ATT translate_if_then_else (ATT cond, ATT s1, ATT s2)
 #define YYMAXDEPTH   64
 #define YYMAXERR     10
 #define YYVERBOSE
-#line 480 "y.tab.c"
+#line 547 "y.tab.c"
 
 #if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
 /* Default: YYSTYPE is the semantic value type. */
@@ -758,7 +825,7 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 1188 "control.y"
+#line 1256 "control.y"
 
 /*----------------------------------------------------------------------*/
 #ifdef __TURBOC__
@@ -822,7 +889,7 @@ int main( argc, argv )
   yyparse();
   return 0;
 }
-#line 826 "y.tab.c"
+#line 893 "y.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>	/* needed for printf */
@@ -1022,7 +1089,7 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 474 "control.y"
+#line 541 "control.y"
 	{
   if(yystack.l_mark[-1].true_list != NULL) {
     CODE * label_s = make_code(NULL, new_label());
@@ -1040,7 +1107,7 @@ case 1:
 }
 break;
 case 3:
-#line 492 "control.y"
+#line 559 "control.y"
 	{
     CODE * code = yystack.l_mark[0].code;
     if (yystack.l_mark[-2].true_list != NULL ) {
@@ -1059,11 +1126,12 @@ case 3:
 }
 break;
 case 4:
-#line 510 "control.y"
+#line 577 "control.y"
 	{
     CODE * goto_s = make_code("goto", NULL);
     ATT att = make_att( NULL, NULL,goto_s);
     att.break_list = goto_s;
+    printf("....\n");
     yyval = att;
     
     /*  while a > 0 do 
@@ -1099,7 +1167,7 @@ case 4:
 }
 break;
 case 5:
-#line 548 "control.y"
+#line 616 "control.y"
 	{
   CODE * goto_s = make_code("goto", NULL);
   ATT att = make_att( NULL, NULL,goto_s);
@@ -1108,31 +1176,31 @@ case 5:
 }
 break;
 case 6:
-#line 555 "control.y"
+#line 623 "control.y"
 	{
   yyval = translate_if_then(yystack.l_mark[-2], yystack.l_mark[0]);
 }
 break;
 case 7:
-#line 559 "control.y"
+#line 627 "control.y"
 	{
   yyval = translate_if_then_else(yystack.l_mark[-4], yystack.l_mark[-2], yystack.l_mark[0]);
 }
 break;
 case 8:
-#line 563 "control.y"
+#line 631 "control.y"
 	{
   yyval = translate_repeat(yystack.l_mark[-2], yystack.l_mark[0]);
  }
 break;
 case 9:
-#line 583 "control.y"
+#line 651 "control.y"
 	{
   yyval = translate_while(yystack.l_mark[-2], yystack.l_mark[0]);
 }
 break;
 case 10:
-#line 587 "control.y"
+#line 655 "control.y"
 	{
   CODE * goto_s = make_code ("goto", NULL);
   char s[40];
@@ -1196,19 +1264,19 @@ case 10:
 }
 break;
 case 11:
-#line 649 "control.y"
+#line 717 "control.y"
 	{
   yyval = yystack.l_mark[-2];
 }
 break;
 case 12:
-#line 653 "control.y"
+#line 721 "control.y"
 	{
   yyval = yystack.l_mark[-1];
 }
 break;
 case 13:
-#line 657 "control.y"
+#line 725 "control.y"
 	{
   ATT as = assign(yystack.l_mark[-2], yystack.l_mark[0]);
   if (yystack.l_mark[-2].code != NULL) as.code = join_code(yystack.l_mark[-2].code, as.code);
@@ -1217,7 +1285,7 @@ case 13:
 }
 break;
 case 14:
-#line 664 "control.y"
+#line 732 "control.y"
 	{ 
   int is_enum, is_last;
 
@@ -1249,13 +1317,13 @@ case 14:
 }
 break;
 case 15:
-#line 710 "control.y"
+#line 778 "control.y"
 	{
   yyval = make_att(NULL, NULL, NULL);
 }
 break;
 case 16:
-#line 714 "control.y"
+#line 782 "control.y"
 	{ /* consecutive "CASE ID" */
   char s [40];
   CODE * goto_s, * if_s, * tmp;
@@ -1365,7 +1433,7 @@ case 16:
 }
 break;
 case 17:
-#line 822 "control.y"
+#line 890 "control.y"
 	{
   char s [40]; 
   CODE * goto_s, * if_s, * tmp;
@@ -1420,7 +1488,7 @@ case 17:
 }
 break;
 case 18:
-#line 875 "control.y"
+#line 943 "control.y"
 	{
   CODE  *tmp = yystack.l_mark[0].code;
 
@@ -1468,13 +1536,13 @@ case 18:
 }
 break;
 case 19:
-#line 922 "control.y"
+#line 990 "control.y"
 	{
   yyval = yystack.l_mark[0];
 }
 break;
 case 20:
-#line 926 "control.y"
+#line 994 "control.y"
 	{
   /* array element */
   /*
@@ -1559,7 +1627,7 @@ case 20:
 }
 break;
 case 21:
-#line 1010 "control.y"
+#line 1078 "control.y"
 	{
   char * tmp = new_name();
   char  s[20];
@@ -1577,7 +1645,7 @@ case 21:
 }
 break;
 case 22:
-#line 1026 "control.y"
+#line 1094 "control.y"
 	{
   char * tmp = new_name();
   char  s[20];
@@ -1594,7 +1662,7 @@ case 22:
 }
 break;
 case 23:
-#line 1041 "control.y"
+#line 1109 "control.y"
 	{
   char * tmp = new_name();
   char  s[20];
@@ -1611,7 +1679,7 @@ case 23:
 }
 break;
 case 24:
-#line 1056 "control.y"
+#line 1124 "control.y"
 	{
   char * tmp = new_name();
   char  s[20];
@@ -1627,13 +1695,13 @@ case 24:
 }
 break;
 case 25:
-#line 1071 "control.y"
+#line 1139 "control.y"
 	{
   yyval = yystack.l_mark[-1];
 }
 break;
 case 27:
-#line 1077 "control.y"
+#line 1145 "control.y"
 	{
   /* function call */
   int count = 0;
@@ -1661,7 +1729,7 @@ case 27:
 }
 break;
 case 28:
-#line 1122 "control.y"
+#line 1190 "control.y"
 	{
   /* use code list to link actual parameter,
      and code->code holds the a.p. tmp result. 
@@ -1673,7 +1741,7 @@ case 28:
 }
 break;
 case 29:
-#line 1132 "control.y"
+#line 1200 "control.y"
 	{
   CODE * e_result = make_code((char *)yystack.l_mark[0].true_list, (char *) yystack.l_mark[0].code);
     
@@ -1683,31 +1751,31 @@ case 29:
 }
 break;
 case 30:
-#line 1141 "control.y"
+#line 1209 "control.y"
 	{ 
   yyval = combine(yystack.l_mark[-2], yystack.l_mark[0], FILL_FALSE);
   }
 break;
 case 31:
-#line 1145 "control.y"
+#line 1213 "control.y"
 	{ 
   yyval = combine(yystack.l_mark[-2], yystack.l_mark[0], FILL_TRUE);
 }
 break;
 case 32:
-#line 1150 "control.y"
+#line 1218 "control.y"
 	{
   yyval = translate_not(yystack.l_mark[0]);
 }
 break;
 case 33:
-#line 1154 "control.y"
+#line 1222 "control.y"
 	{
   yyval = yystack.l_mark[-1];
 }
 break;
 case 34:
-#line 1158 "control.y"
+#line 1226 "control.y"
 	{
   char  s [40];
   CODE *code1, *code2;
@@ -1725,7 +1793,7 @@ case 34:
 }
 break;
 case 35:
-#line 1174 "control.y"
+#line 1242 "control.y"
 	{
   CODE * code  = make_code(b_true, NULL);
   ATT  att  = make_att(NULL, NULL, code);
@@ -1733,14 +1801,14 @@ case 35:
 }
 break;
 case 36:
-#line 1180 "control.y"
+#line 1248 "control.y"
 	{
   CODE * code  = make_code(b_false, NULL);
   ATT att  = make_att(NULL, NULL, code);
   yyval = att;
 }
 break;
-#line 1744 "y.tab.c"
+#line 1812 "y.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;

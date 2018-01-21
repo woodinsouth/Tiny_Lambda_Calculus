@@ -1,2 +1,1 @@
-if a>b or c>d and e<f then a:=0 else a:=1;
-a:=1000.
+while a > b do begin if c > d then break; x:=1 end.

@@ -177,11 +177,12 @@ void back_patching(CODE *code, char * label, CODE *last)
 {
   /* if last is null then backpatching all list.
      if last is the tail then backpatching all list except the tail */
-
+  //printf("-------------\n");
   CODE * tmp;
   if (code == last || code == NULL) return;
    
   while (code != last) {
+    //printf("%s %s\n",tmp->code, tmp->label);
     tmp = (CODE *) code ->label;
     code -> label = label;
     code = tmp;
@@ -311,12 +312,60 @@ ATT combine(ATT att1, ATT att2, int mode)
 
 ATT translate_repeat(ATT body, ATT cond)
 {
-  /* TODO */
+  // only when cond has mutiple truelist, we need a outside label and label truelist without truetail with outside label
+  CODE *thead = cond.true_list;
+  CODE *ttail = get_tail(thead);
+  body.true_list = cut_last(thead,ttail);
+  // newcode judging by the cond expression
+  char * newcode = (char *) malloc (strlen(ttail->code) + 20);
+  if(ttail->code[0]=='1')
+    sprintf(newcode, "ifnot %s goto ", ttail-> code + 1);
+  else
+    sprintf(newcode, "if %s goto ", ttail-> code +1);
+  ttail->code = newcode;
+  // new label for cond 
+  body.code = get_first(body.code);
+  // backpathing the cond.false_list with body.label
+  CODE *fhead = cond.false_list;
+  CODE *ftail = get_tail(fhead);
+  CODE *tmp;
+  do
+  {
+    if(fhead != ftail) 
+      tmp = (CODE *)fhead->label;
+    else
+      tmp = NULL;
+    fhead->label = body.code->label;
+    fhead = tmp;
+  }while(tmp != NULL);
+  body.code = join_code(body.code, cond.code);
+  return body;
 }
 
 ATT translate_while (ATT cond, ATT body)
 {
-  /* TODO */
+  // new label for cond 
+  cond.code = get_first(cond.code);
+  // backpatching body.continue list with new label
+  // only when cond has mutiple truelist, we need a new label for body and label truelist without truetail with body.label
+  CODE *thead = cond.true_list;
+  CODE *ttail = get_tail(thead);
+  if(thead!=ttail) 
+    body.code = get_first(body.code); 
+  back_patching(thead,body.code->label,ttail);// backpatching truelist code with s.label
+  // newcode judging by the cond expression
+  char * newcode = (char *) malloc (strlen(ttail->code) + 20);
+  if(ttail->code[0]=='1')
+    sprintf(newcode, "ifnot %s goto ", ttail-> code + 1);
+  else
+    sprintf(newcode, "if %s goto ", ttail-> code +1);
+  ttail->code = newcode;
+  // for break and continue
+  CODE * goto_s = make_code("goto", cond.code->label);
+  cond.code = join_code(cond.code, body.code);
+  cond.code = join_code(cond.code, goto_s);
+  cond.true_list = merge(cond.false_list, body.true_list);
+  return cond;
 }
 
 ATT translate_not(ATT a)
@@ -408,47 +457,62 @@ int is_continue(ATT s)
 
 ATT translate_if_then (ATT cond, ATT s)
 {
-
-  CODE * tmp = cond.false_list;
-  while(tmp != NULL)
-  {
-    tmp->label = (char *)tmp->next;
-    tmp = tmp->next;
-  }
-  tmp = cond.code;
-  while(tmp != NULL)
-  {
-    printf("%s\n", tmp->label);
-    printf("%s\n", tmp->code);
-    tmp = tmp->next;
-  }
-  ATT att = combine(cond, s, FILL_TRUE);
-  att.true_list = cond.false_list;
-  return att;
+  CODE *head = cond.true_list;
+  CODE *tail = get_tail(cond.true_list);
+  // only when cond has mutiple truelist, we need a new label for s
+  if(head!=tail) 
+    s.code = get_first(s.code); 
+  back_patching(head,s.code->label,tail);// backpatching truelist code with s.label
+  // newcode judging by the cond expression
+  char * newcode = (char *) malloc (strlen(tail->code) + 20);
+  if(tail->code[0]=='1')
+    sprintf(newcode, "ifnot %s goto ", tail-> code + 1);
+  else
+    sprintf(newcode, "if %s goto ", tail-> code +1);
+  // break list
+  tail->code = newcode;
+  cond.code = join_code(cond.code, s.code);
+  cond.true_list = merge(cond.false_list,s.true_list); // the entry that need backtracing with  exit the outside label
+  return cond;
 }
 
 ATT translate_if_then_else (ATT cond, ATT s1, ATT s2)
 {
-  CODE * tmp = cond.false_list;
-  while(tmp != NULL)
+  // only when cond has mutiple falselist, we need a new label for s2 and  backpatching cond.falselist code with s.label
+  CODE *fhead = cond.false_list;
+  CODE *ftail = get_tail(cond.false_list);
+  if(fhead!=ftail) 
+    s2.code = get_first(s2.code); 
+  back_patching(fhead,s2.code->label,ftail);
+  // newcode judging by the cond expression
+  char * newcode = (char *) malloc (strlen(ftail->code) + 20);
+  if(ftail->code[0]=='0')
+    sprintf(newcode, "ifnot %s goto ", ftail-> code + 1);
+  else
+    sprintf(newcode, "if %s goto ", ftail-> code +1);
+  ftail->code = newcode;
+  // new label for s1 and backpatching cond.true_list with s1.label
+  s1.code = get_first(s1.code);
+  CODE *thead = cond.true_list;
+  CODE *ttail = get_tail(thead);
+  CODE *tmp;
+  do
   {
-    if(tmp->code != NULL) tmp->label = (char *)tmp->next;
-    tmp = tmp->next;
-  }
+    if(thead != ttail) 
+      tmp = (CODE *)thead->label;
+    else
+      tmp = NULL;
+    thead->label = s1.code->label;
+    thead = tmp;
+  }while(tmp != NULL);
 
-  ATT att = combine(cond, s2, FILL_FALSE);
-  att.false_list = cond.true_list;
-
-  CODE * goto_s = make_code("goto", NULL);
-  att.code = join_code(att.code, goto_s);
-
-  CODE * label_s = make_code(NULL, new_label());
-  att.code = join_code(att.code, label_s);
-  back_patching(att.false_list, label_s->label, NULL);
-  att.code = join_code(att.code, s1.code);
-  att.true_list = goto_s;
-  att.false_list = NULL;
-  return att;
+  CODE * goto_s = make_code("goto", NULL); // goto for s2 end
+  cond.code = join_code(cond.code, s2.code);
+  cond.code = join_code(cond.code, goto_s);
+  cond.code = join_code(cond.code, s1.code);
+  cond.true_list = merge(goto_s,s1.true_list); // the entry that need backtracing with  exit the outside label
+  cond.true_list = merge(cond.true_list,s2.true_list); // the entry that need backtracing with  exit the outside label
+  return cond;
 }
 
 #define YYSTYPE   ATT

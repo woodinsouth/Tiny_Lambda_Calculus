@@ -1,0 +1,5 @@
+while (a > b and c > d) do
+  begin 
+    if (m > n) then break;
+    y := y + 2
+ end.
